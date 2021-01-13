@@ -11,7 +11,7 @@ BASE_URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 # groups based on tolerance level, each player is assigned an 8-character unique alphanumeric identifier - game id
 # 8 groups for RC4 Angel Mortal games: AM1, AM2, AM3, AM4, AM5, AM6, AM7, AM8
 # index to the left: ANGEL | index to the right: MORTAL
-AM = []
+AM = ["10000000"]
 AM2 = []
 AM3 = []
 AM4 = []
@@ -75,7 +75,7 @@ INVALID_PIN = "You have entered the wrong 8-character Game ID. Please try again,
 REDIRECT_GREETING = "Did you mean: /mainmenu"
 REQUEST_ADMIN_ID = "Please enter your Admin ID to proceed."
 SEND_ADMIN_GREETING = "Hello there, Administrator! What do you want to say to everyone?\n" +\
-                      "Whatever you submit from now on will be broadcasted to all users, be CAREFUL!" +\
+                      "Whatever you submit from now on will be broadcasted to all users, be CAREFUL!\n" +\
                       "Type /mainmenu to exit, once you have made your announcement."
 SEND_CONNECTION_FAILED = u"This feature is unavailable now as he/she has yet to sign in to the game." +\
                          u" Please be patient and try again soon!" + SMILEY + "\n\nType /mainmenu to go back."
@@ -288,11 +288,11 @@ class User:
             send_message(INVALID_PIN, chat_id, self.name, reply_markup=remove_keyboard())
             return
         elif text == SEND_ONE_KEY:
-            send_message("Please key in the Game ID of the participant", chat_id, self.name)
-            self.stage = self.receive_game_id
+        send_message("Please key in the Game ID of the participant", chat_id, self.name)
+        self.stage = self.receive_game_id
         elif text == CHECK_REGIS_KEY:
-            send_message("Reply 'Y' to check registration status, or 'N' to return to mainmenu.", chat_id, self.name)
-            self.stage = self.check_registration
+        send_message("Reply 'Y' to check registration status, or 'N' to return to mainmenu.", chat_id, self.name)
+        self.stage = self.check_registration
         else:
             send_message(SEND_ADMIN_GREETING, chat_id, self.name, reply_markup=remove_keyboard())
             self.stage = self.send_all
