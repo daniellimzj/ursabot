@@ -11,7 +11,7 @@ BASE_URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 # groups based on tolerance level, each player is assigned an 8-character unique alphanumeric identifier - game id
 # 8 groups for RC4 Angel Mortal games: AM1, AM2, AM3, AM4, AM5, AM6, AM7, AM8
 # index to the left: ANGEL | index to the right: MORTAL
-AM = ["10000000"]
+AM = ["10000000", "00000000"]
 AM2 = []
 AM3 = []
 AM4 = []
