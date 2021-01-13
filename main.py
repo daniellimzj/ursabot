@@ -288,11 +288,11 @@ class User:
             send_message(INVALID_PIN, chat_id, self.name, reply_markup=remove_keyboard())
             return
         elif text == SEND_ONE_KEY:
-        send_message("Please key in the Game ID of the participant", chat_id, self.name)
-        self.stage = self.receive_game_id
+            send_message("Please key in the Game ID of the participant", chat_id, self.name)
+            self.stage = self.receive_game_id
         elif text == CHECK_REGIS_KEY:
-        send_message("Reply 'Y' to check registration status, or 'N' to return to mainmenu.", chat_id, self.name)
-        self.stage = self.check_registration
+            send_message("Reply 'Y' to check registration status, or 'N' to return to mainmenu.", chat_id, self.name)
+            self.stage = self.check_registration
         else:
             send_message(SEND_ADMIN_GREETING, chat_id, self.name, reply_markup=remove_keyboard())
             self.stage = self.send_all
