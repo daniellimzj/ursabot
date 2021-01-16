@@ -246,7 +246,6 @@ class User:
             send_message(formatted_hello_greeting, chat_id, self.name, reply_markup=keyboard)
 
         elif text == ABOUT_THE_BOT_KEY:
-
             send_message(ABOUT_THE_BOT, chat_id, self.name)
             keyboard = build_keyboard(KEYBOARD_OPTIONS)
             send_message(formatted_hello_greeting, chat_id, self.name, reply_markup=keyboard)
@@ -282,20 +281,26 @@ class User:
         self.mainmenu(text, chat_id)
 
     # Prompts the user for the admin password for login.
-    # If valid password, then then admin is allowed to send a message to all users.
+    # If valid password, then then admin is allowed to send a message to a specific user or all users.
     def admin_login(self, text, chat_id):
         if text not in ADMIN_ID:
             send_message(INVALID_PIN, chat_id, self.name, reply_markup=remove_keyboard())
             return
-        elif text == SEND_ONE_KEY:
-            send_message("Please key in the Game ID of the participant", chat_id, self.name)
-            self.stage = self.receive_game_id
-        elif text == CHECK_REGIS_KEY:
-            send_message("Reply 'Y' to check registration status, or 'N' to return to mainmenu.", chat_id, self.name)
-            self.stage = self.check_registration
         else:
             send_message(SEND_ADMIN_GREETING, chat_id, self.name, reply_markup=remove_keyboard())
-            self.stage = self.send_all
+            if text == SEND_ONE_KEY:
+                send_message("Please key in the Game ID of the participant", chat_id, self.name)
+                self.stage = self.receive_game_id
+            elif text == CHECK_REGIS_KEY:
+                send_message("Reply 'Y' to check registration status, or 'N' to return to mainmenu.", chat_id, self.name)
+                self.stage = self.check_registration
+            else:
+                self.stage = self.send_all
+            return
+
+    # Sends message to selected user(s); assumes valid password.
+    def admin_send(self, text, chat_id):
+        return
 
     # helper function that fetches chat_id from database using game_id and sends text to the chat_id
     def fetch_then_send(self, text, game_id):
@@ -306,11 +311,11 @@ class User:
 
     # chat_id is required to match the number of parameters in stage()
     # Sends a message to all players if administrator credentials are approved.
-    def send_all(self, text, chat_id):
-        list_of_ids = AM1 + AM2 + AM3 + AM4 + AM5 + + COMM + ADMINS
-        for game_id in list_of_ids:
-            self.fetch_then_send(text, game_id)
-        return
+    # def send_all(self, text, chat_id):
+    #     list_of_ids = AM1 + AM2 + AM3 + AM4 + AM5 + + COMM + ADMINS
+    #     for game_id in list_of_ids:
+    #         self.fetch_then_send(text, game_id)
+    #     return
 
     # chat_id is required to match the number of parameters in stage()
     # Sends a message to all players if administrator credentials are approved.
