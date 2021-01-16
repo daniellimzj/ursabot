@@ -61,8 +61,8 @@ ADMIN_KEYBOARD = [SEND_ALL_KEY, SEND_ONE_KEY, CHECK_REGIS_KEY]
 
 # GREETINGS
 ABOUT_THE_BOT = SPOUTING_WHALE + " *About OrcaBot* " + SPOUTING_WHALE + "\n\n" + CAKE + " Birthday: June 2017\n\n" +\
-                ROBOT + " Currently maintained by Shao Yi\n\n" + SKULL +\
-                " Past Bot Developers: Bai Chuan, Fiz, Youkuan, Kang Ming, Zhi Yu\n\n"
+                ROBOT + " Currently maintained by Illio\n\n" + SKULL +\
+                " Past Bot Developers: Bai Chuan, Fiz, Youkuan, Kang Ming, Zhi Yu, Shao Yi\n\n"
 AM_GREETING = "Hello there, {}!\n\n" +\
               "Click or type any of the following:\n" +\
               "/angel: Chat with your Angel\n" +\
@@ -254,7 +254,7 @@ class User:
         elif text == ANONYMOUS_CHAT_KEY:
             chat_ids = [records[2] for records in am_db.get_all_records()]
             if chat_id in chat_ids:       # ??? if 8 digit alphanumeric ID is in the list
-                send_message(AM_GREETING, chat_id, self.name, reply_markup=remove_keyboard())
+                send_message(AM_GREETING.format(self.name), chat_id, self.name, reply_markup=remove_keyboard())
                 self.stage = self.anonymous_chat
             else:
                 send_message(AM_LOGIN_GREETING, chat_id, self.name, reply_markup=remove_keyboard())
@@ -333,7 +333,7 @@ class User:
             return
         else:
             am_db.register(user_pin, chat_id, self.name)
-            send_message(AM_GREETING, chat_id, self.name, reply_markup=remove_keyboard())
+            send_message(AM_GREETING.format(self.name), chat_id, self.name, reply_markup=remove_keyboard())
             self.stage = self.anonymous_chat
 
     # user_record[0] = serial number
