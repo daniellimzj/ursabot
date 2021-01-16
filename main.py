@@ -11,7 +11,7 @@ BASE_URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 # groups based on tolerance level, each player is assigned an 8-character unique alphanumeric identifier - game id
 # 8 groups for RC4 Angel Mortal games: AM1, AM2, AM3, AM4, AM5, AM6, AM7, AM8
 # index to the left: ANGEL | index to the right: MORTAL
-AM = ["10000000", "00000000"]
+AM = ["10000000", "00000000", "20000000"]
 AM2 = []
 AM3 = []
 AM4 = []
@@ -272,8 +272,9 @@ class User:
             send_message(formatted_hello_greeting, chat_id, self.name, reply_markup=keyboard)
 
     # A method pointer that is reassigned constantly.
-    # Once reassigned to another method with same number of parameters, then the next user input will be directed
-    # to the newly reassigned method.
+    # Once reassigned to another method with same number of parameters, the next user input will be directed
+    # to the newly reassigned method. This means that all methods stage point directly to must have two variables
+    # or be wrapped in a lambda function (see choose_user's implementation for an example).
     def stage(self, text, chat_id):
         self.mainmenu(text, chat_id)
 
@@ -310,7 +311,7 @@ class User:
             send_message("Please enter your message; be careful - once you've sent something, there's no taking it back!", chat_id, self.name)
             self.stage = lambda x, y : self.send_one(x, y, recipient_data[2])
         else:
-            send_message("Recipient cannot be found! Try again, or exit with /mainmenu.", chat_id, self.name)
+            send_message("Recipient cannot be found! Try again, or use /mainmenu to exit.", chat_id, self.name)
             return
 
     def send_one(self, text, chat_id, data):
@@ -330,6 +331,20 @@ class User:
         for cid in am_participants:  # gets the telegram chat_id each time
             send_message("From the Admin:\n" + text, cid, self.name)
         return
+
+    def check_registration(self, text, chat_id):
+        owner_data = am_db.get_user_record_from_game_id(text)
+        recipient_data = owner_data.fetchone()
+        if recipient_data is not None:
+            if recipient_data[4]:
+                send_message("User has registered already! Enter another ID, or use /mainmenu to exit.", chat_id, self.name)
+                return
+            else:
+                send_message("User has not registered yet. Enter another ID, or use /mainmenu to exit.", chat_id, self.name)
+                return
+        else:
+            send_message("User with the given ID does not exist. Try again, or use /mainmenu to exit.", chat_id, self.name)
+            return
 
     # Registers a user.
     # Verifies the user PIN number first, then registers user in the angel mortal database

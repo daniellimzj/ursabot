@@ -100,5 +100,3 @@ class amdb:
         except:
             print("Failure")
             return []
-
-
