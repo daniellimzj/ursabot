@@ -315,6 +315,7 @@ class User:
 
     def send_one(self, text, chat_id, data):
         send_message("From the Admin:\n" + text, data, self.name)
+        self.stage = lambda x, y : self.send_one(x, y, data)
         return
 
     # chat_id is required to match the number of parameters in stage()
