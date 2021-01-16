@@ -11,7 +11,7 @@ BASE_URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 # groups based on tolerance level, each player is assigned an 8-character unique alphanumeric identifier - game id
 # 8 groups for RC4 Angel Mortal games: AM1, AM2, AM3, AM4, AM5, AM6, AM7, AM8
 # index to the left: ANGEL | index to the right: MORTAL
-AM = ["10000000", "00000000", "20000000"]
+AM = []
 AM2 = []
 AM3 = []
 AM4 = []
@@ -31,7 +31,6 @@ am_participants = []  # list of player chat_ids
 
 # EMOJI UNICODE
 CAKE = u"\U0001F382"
-WHALE = u"\U0001F40B"
 ROBOT = u"\U0001F916"
 SKULL = u"\U0001F480"
 SMILEY = u"\U0001F642"
@@ -310,7 +309,7 @@ class User:
 
     # Sends a message to all players.
     def send_all(self, text, chat_id):
-        list_of_ids = AM + AM2 + AM3 + AM4 + AM6 + AM7 + AM8
+        list_of_ids = AM + AM2 + AM3 + AM4 + AM5 + AM6 + AM7 + AM8
         for person_id in list_of_ids:
             owner_data = am_db.get_user_record_from_game_id(person_id)
             recipient_data = owner_data.fetchone()
@@ -321,7 +320,7 @@ class User:
         return
 
     def check_registration(self, user_pin, chat_id):
-        list_of_ids = AM + AM2 + AM3 + AM4 + AM6 + AM7 + AM8
+        list_of_ids = AM + AM2 + AM3 + AM4 + AM5 + AM6 + AM7 + AM8
         if user_pin in list_of_ids:
             owner_data = am_db.get_user_record_from_game_id(user_pin)
             recipient_data = owner_data.fetchone()
@@ -337,7 +336,8 @@ class User:
     # Registers a user.
     # Verifies the user PIN number first, then registers user in the angel mortal database
     def register(self, user_pin, chat_id):
-        if user_pin not in AM and user_pin not in AM2 and user_pin not in AM3 and user_pin not in AM4:
+        list_of_ids = AM + AM2 + AM3 + AM4 + AM5 + AM6 + AM7 + AM8
+        if user_pin not in list_of_ids:
             send_message(INVALID_PIN, chat_id, self.name, reply_markup=remove_keyboard())
             return
         else:
@@ -351,7 +351,8 @@ class User:
     # user_record[3] = name on telegram
     # user_record[4] = isRegistered todo change to boolean
     # Initialises a chat with a user's angel or mortal.
-    # If this line is still here then I must have kept isRegistered i swear to fucking god why is this here??? NOTHING USES IT
+    # if this line is still here then i must have been too lazy to remove isRegistered
+    # i swear to fucking god why is this here??? NOTHING USES IT GET RID OF IT IF YOU WANT
     def anonymous_chat(self, text, chat_id):
         # returns the cursor that has executed the SQL statement in postgres
         user_record = am_db.get_user_record_from_user_chat_id(chat_id).fetchone()
@@ -376,7 +377,7 @@ class User:
 
             angel_record = am_db.get_user_record_from_game_id(angel_game_id).fetchone()
             if angel_record is None:
-                send_message(SEND_CONNECTION_FAILED.format("angel"), chat_id, self.name)
+                send_message(SEND_CONNECTION_FAILED.format("Owl"), chat_id, self.name)
             else:
                 self.angel_chat_id = angel_record[2]
                 self.mortal_name = angel_record[3]
@@ -404,7 +405,7 @@ class User:
 
             mortal_record = am_db.get_user_record_from_game_id(mortal_game_id).fetchone()
             if mortal_record is None:
-                send_message(SEND_CONNECTION_FAILED.format("mortal"), chat_id, self.name)
+                send_message(SEND_CONNECTION_FAILED.format("Owlet"), chat_id, self.name)
             else:
                 self.mortal_chat_id = mortal_record[2]
                 self.mortal_name = mortal_record[3]
@@ -413,19 +414,13 @@ class User:
 
     # Sends a text message to a user's angel.
     def chat_with_angel(self, text, chat_id):
-        # if self.angel_chat_id != 0:
         print("Angel to Mortal:")
-        send_message("From your Mortal:\n\n" + text, self.angel_chat_id, self.angel_name, sender_name=self.name)
-        # else:
-        #     send_message(SEND_CONNECTION_FAILED.format("angel"), chat_id, self.name)
+        send_message("From your Owlet:\n\n" + text, self.angel_chat_id, self.angel_name, sender_name=self.name)
 
     # Sends a text message to a user's mortal.
     def chat_with_mortal(self, text, chat_id):
-        # if self.mortal_chat_id != 0:
         print("Mortal to Angel:")
-        send_message("From your Angel:\n\n" + text, self.mortal_chat_id, self.mortal_name, sender_name=self.name)
-        # else:
-        #     send_message(SEND_CONNECTION_FAILED.format("mortal"), chat_id, self.name)
+        send_message("From your Owl:\n\n" + text, self.mortal_chat_id, self.mortal_name, sender_name=self.name)
 
 
 # Searches existing user list for a registered user and stages the user
@@ -444,14 +439,14 @@ def find_existing_user_then_stage(text, chat_id, user_list):
 
 # Initialises a User object, adds it to the global list and the user database
 def setup_user_then_stage(text, chat_id, name, user_list):
-        new_user = User(chat_id, name)  # create a new User object
-        user_list.append(new_user)  # add new user to the global user list
-        user_db.add_user(chat_id, name)  # add user profile to the db
-        if text == MENU_KEY:
-            new_user.stage = new_user.mainmenu
-            new_user.stage(text, chat_id)
-        else:
-            new_user.stage(text, chat_id)
+    new_user = User(chat_id, name)  # create a new User object
+    user_list.append(new_user)  # add new user to the global user list
+    user_db.add_user(chat_id, name)  # add user profile to the db
+    if text == MENU_KEY:
+        new_user.stage = new_user.mainmenu
+        new_user.stage(text, chat_id)
+    else:
+        new_user.stage(text, chat_id)
 
 
 # Entry point of telegram bot script
@@ -463,15 +458,15 @@ def main():
             if len(updates["result"]) > 0:  # accesses the Array object in the JSON response
                 for update in updates["result"]:  # iterates through the updates Array
                     if "message" in update and "text" in update["message"]:  # check for text message by user
-                            text = update["message"]["text"]  # get message sent by user
-                            chat_id = update["message"]["chat"]["id"]  # get user chat id
-                            name = update["message"]["from"]["first_name"]  # get user name
-                            if chat_id > 0:
-                                # todo can use dictionary to improve complexity
-                                if chat_id not in [user.id for user in users]:  # new user
-                                    setup_user_then_stage(text, chat_id, name, users)
-                                else:
-                                    find_existing_user_then_stage(text, chat_id, users)
+                        text = update["message"]["text"]  # get message sent by user
+                        chat_id = update["message"]["chat"]["id"]  # get user chat id
+                        name = update["message"]["from"]["first_name"]  # get user name
+                        if chat_id > 0:
+                            # todo can use dictionary to improve complexity
+                            if chat_id not in [user.id for user in users]:  # new user
+                                setup_user_then_stage(text, chat_id, name, users)
+                            else:
+                                find_existing_user_then_stage(text, chat_id, users)
                 last_update_id = get_last_update_id(updates) + 1
         except KeyError:
             print("I got a KeyError!")
