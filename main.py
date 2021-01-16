@@ -413,19 +413,19 @@ class User:
 
     # Sends a text message to a user's angel.
     def chat_with_angel(self, text, chat_id):
-        if self.angel_chat_id != 0:
-            print("Angel to Mortal:")
-            send_message("From your Mortal:\n\n" + text, self.angel_chat_id, self.angel_name, sender_name=self.name)
-        else:
-            send_message(SEND_CONNECTION_FAILED, chat_id, self.name)
+        # if self.angel_chat_id != 0:
+        print("Angel to Mortal:")
+        send_message("From your Mortal:\n\n" + text, self.angel_chat_id, self.angel_name, sender_name=self.name)
+        # else:
+        #     send_message(SEND_CONNECTION_FAILED.format("angel"), chat_id, self.name)
 
     # Sends a text message to a user's mortal.
     def chat_with_mortal(self, text, chat_id):
-        if self.mortal_chat_id != 0:
-            print("Mortal to Angel:")
-            send_message("From your Angel:\n\n" + text, self.mortal_chat_id, self.mortal_name, sender_name=self.name)
-        else:
-            send_message(SEND_CONNECTION_FAILED, chat_id, self.name)
+        # if self.mortal_chat_id != 0:
+        print("Mortal to Angel:")
+        send_message("From your Angel:\n\n" + text, self.mortal_chat_id, self.mortal_name, sender_name=self.name)
+        # else:
+        #     send_message(SEND_CONNECTION_FAILED.format("mortal"), chat_id, self.name)
 
 
 # Searches existing user list for a registered user and stages the user
