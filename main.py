@@ -40,9 +40,10 @@ SPEECH_BUBBLE = u"\U0001F4AC"
 THINKING_FACE = u"\U0001F914"
 QUESTION_MARK = u"\U0001F64F"
 MONKEY = u"\U0001F64A"
+OWL = u"\U0001F989"
 
 # TELEGRAM KEYBOARD KEYS
-ABOUT_THE_BOT_KEY = u"About the Bot" + " " + SPOUTING_WHALE
+ABOUT_THE_BOT_KEY = u"About the Bot" + " " + OWL
 ADMIN_KEY = u"/admin"
 ANGEL_KEY = u"/angel"
 ANONYMOUS_CHAT_KEY = u"Owl-Owlet Anonymous Chat" + " " + SPEECH_BUBBLE
@@ -59,7 +60,7 @@ USER_KEYBOARD_OPTIONS = [ANONYMOUS_CHAT_KEY, ABOUT_THE_BOT_KEY, HELP_KEY, RULES_
 ADMIN_KEYBOARD_OPTIONS = [SEND_ONE_KEY, SEND_ALL_KEY, CHECK_REGIS_KEY]
 
 # GREETINGS
-ABOUT_THE_BOT = SPOUTING_WHALE + " *About NocBot* " + SPOUTING_WHALE + "\n\n" + CAKE + " Birthday: June 2017\n\n" +\
+ABOUT_THE_BOT = OWL + " *About NocBot* " + OWL + "\n\n" + CAKE + " Birthday: June 2017\n\n" +\
                 ROBOT + " Currently maintained by Illio\n\n" + SKULL +\
                 " Past Bot Developers: Bai Chuan, Fiz, Youkuan, Kang Ming, Zhi Yu, Shao Yi\n\n"
 AM_GREETING = "Hello there, {}!\n\n" +\
@@ -84,7 +85,7 @@ SUCCESSFUL_ANGEL_CONNECTION = "You have been connected with your Angel." +\
 SUCCESSFUL_MORTAL_CONNECTION = "You have been connected with your Mortal." +\
                                " Anything you type here will be sent anonymously to him/her.\n" +\
                                "To exit, type /mainmenu"
-HELLO_GREETING = "Hello there, {}! NocBot at your service! " + SPOUTING_WHALE
+HELLO_GREETING = "Hello there, {}! NocBot at your service! " + OWL
 HELP_MESSAGE = "Hello there, {}!\n\n" +\
                "NocBot is a homegrown telegram bot that allows you to anonymously chat with your Owl or Owlet.\n\n" +\
                "While in the Main Menu, click on:\n" +\
@@ -129,6 +130,12 @@ GAME_RULES_MESSAGE = "Welcome to Owl and Owlet!\n\n" +\
                      " organizing comm! We hope you have fun and make new friends as well!\n\n" +\
                      "Best regards,\n" +\
                      "Your Organizing Committee"
+REQUEST_GAME_ID = "Please enter the Game ID of the participant."
+REQUEST_MESSAGE = "Please enter your message; be careful - once you've sent something, there's no taking it back!"
+RECIPIENT_NOT_FOUND = "Recipient cannot be found! Try again, or use /mainmenu to exit."
+USER_REGISTERED = "User has registered already! Enter another ID, or use /mainmenu to exit."
+USER_NOT_REGISTERED = "User has not registered yet. Enter another ID, or use /mainmenu to exit."
+USER_NOT_FOUND = "User with the given ID does not exist. Try again, or use /mainmenu to exit."
 
 # Sends a HTTP GET request using the given url.
 # Returns the response in utf8 format
@@ -273,35 +280,36 @@ class User:
     # Opens the admin menu.
     def admin_menu(self, text, chat_id):
         if text == SEND_ONE_KEY:
-            send_message("Please enter the Game ID of the participant.", chat_id, self.name)
+            send_message(REQUEST_GAME_ID, chat_id, self.name)
             self.stage = self.choose_user
         elif text == SEND_ALL_KEY:
-            send_message("Please enter your message; be careful - once you've sent something, there's no taking it back!", chat_id, self.name)
+            send_message(REQUEST_MESSAGE, chat_id, self.name)
             self.stage = self.send_all
         elif text == CHECK_REGIS_KEY:
-            send_message("Please enter the Game ID of the participant.", chat_id, self.name)
+            send_message(REQUEST_GAME_ID, chat_id, self.name)
             self.stage = self.check_registration
         else:
             send_message("Please choose a valid option.", chat_id, self.name)
         return
 
+    # Prompts the user to choose a user to message.
     def choose_user(self, text, chat_id):
         owner_data = am_db.get_user_record_from_game_id(text)
         recipient_data = owner_data.fetchone()
         if recipient_data is not None:
-            send_message("Please enter your message; be careful - once you've sent something, there's no taking it back!", chat_id, self.name)
+            send_message(REQUEST_MESSAGE, chat_id, self.name)
             self.stage = lambda x, y : self.send_one(x, y, recipient_data[2])
         else:
-            send_message("Recipient cannot be found! Try again, or use /mainmenu to exit.", chat_id, self.name)
+            send_message(RECIPIENT_NOT_FOUND, chat_id, self.name)
             return
 
+    # Sends a message privately to one player.
     def send_one(self, text, chat_id, data):
         send_message("From the Admin:\n" + text, data, self.name)
         self.stage = lambda x, y : self.send_one(x, y, data)
         return
 
-    # chat_id is required to match the number of parameters in stage()
-    # Sends a message to all players if administrator credentials are approved.
+    # Sends a message to all players.
     def send_all(self, text, chat_id):
         list_of_ids = AM + AM2 + AM3 + AM4 + AM6 + AM7 + AM8
         for person_id in list_of_ids:
@@ -319,12 +327,12 @@ class User:
             owner_data = am_db.get_user_record_from_game_id(user_pin)
             recipient_data = owner_data.fetchone()
             if recipient_data is not None:
-                send_message("User has registered already! Enter another ID, or use /mainmenu to exit.", chat_id, self.name)
+                send_message(USER_REGISTERED, chat_id, self.name)
             else:
-                send_message("User has not registered yet. Enter another ID, or use /mainmenu to exit.", chat_id, self.name)
+                send_message(USER_NOT_REGISTERED, chat_id, self.name)
                 return
         else:
-            send_message("User with the given ID does not exist. Try again, or use /mainmenu to exit.", chat_id, self.name)
+            send_message(USER_NOT_FOUND, chat_id, self.name)
             return
 
     # Registers a user.
