@@ -45,7 +45,7 @@ MONKEY = u"\U0001F64A"
 ABOUT_THE_BOT_KEY = u"About the Bot" + " " + SPOUTING_WHALE
 ADMIN_KEY = u"/admin"
 ANGEL_KEY = u"/angel"
-ANONYMOUS_CHAT_KEY = u"Angel-Mortal Anonymous Chat" + " " + SPEECH_BUBBLE
+ANONYMOUS_CHAT_KEY = u"Owl-Owlet Anonymous Chat" + " " + SPEECH_BUBBLE
 HELP_KEY = u"Help" + " " + QUESTION_MARK
 RULES_KEY = u"Rules" + " " + MONKEY
 MENU_KEY = u"/mainmenu"
@@ -56,10 +56,10 @@ CHECK_REGIS_KEY = u"/Check_Player_Registration"
 
 # TELEGRAM KEYBOARD OPTIONS
 USER_KEYBOARD_OPTIONS = [ANONYMOUS_CHAT_KEY, ABOUT_THE_BOT_KEY, HELP_KEY, RULES_KEY]
-ADMIN_KEYBOARD_OPTIONS = [SEND_ALL_KEY, SEND_ONE_KEY, CHECK_REGIS_KEY]
+ADMIN_KEYBOARD_OPTIONS = [SEND_ONE_KEY, SEND_ALL_KEY, CHECK_REGIS_KEY]
 
 # GREETINGS
-ABOUT_THE_BOT = SPOUTING_WHALE + " *About OrcaBot* " + SPOUTING_WHALE + "\n\n" + CAKE + " Birthday: June 2017\n\n" +\
+ABOUT_THE_BOT = SPOUTING_WHALE + " *About NocBot* " + SPOUTING_WHALE + "\n\n" + CAKE + " Birthday: June 2017\n\n" +\
                 ROBOT + " Currently maintained by Illio\n\n" + SKULL +\
                 " Past Bot Developers: Bai Chuan, Fiz, Youkuan, Kang Ming, Zhi Yu, Shao Yi\n\n"
 AM_GREETING = "Hello there, {}!\n\n" +\
@@ -74,8 +74,8 @@ INVALID_PIN = "You have entered the wrong 8-character Game ID. Please try again,
 REDIRECT_GREETING = "Did you mean: /mainmenu"
 REQUEST_ADMIN_ID = "Please enter your Admin ID to proceed."
 SEND_ADMIN_GREETING = "Hello there, Administrator! What do you want to say to everyone?\n" +\
-                      "Whatever you submit from now on will be broadcasted to all users, be CAREFUL!\n" +\
-                      "Type /mainmenu to exit, once you have made your announcement."
+                      "Whatever you enter will be broadcasted to all users, so be CAREFUL!\n" +\
+                      "Type /mainmenu to exit once you have made your announcement."
 SEND_CONNECTION_FAILED = u"This feature is unavailable now as he/she has yet to sign in to the game." +\
                          u" Please be patient and try again soon!" + SMILEY + "\n\nType /mainmenu to go back."
 SUCCESSFUL_ANGEL_CONNECTION = "You have been connected with your Angel." +\
@@ -84,38 +84,36 @@ SUCCESSFUL_ANGEL_CONNECTION = "You have been connected with your Angel." +\
 SUCCESSFUL_MORTAL_CONNECTION = "You have been connected with your Mortal." +\
                                " Anything you type here will be sent anonymously to him/her.\n" +\
                                "To exit, type /mainmenu"
-HELLO_GREETING = "Hello there, {}! Oscar at your service! " + SPOUTING_WHALE
+HELLO_GREETING = "Hello there, {}! Nocbot at your service! " + SPOUTING_WHALE
 HELP_MESSAGE = "Hello there, {}!\n\n" +\
-               "Orcabot is a homegrown telegram bot that allows you to anonymously chat with your Angel or Mortal.\n\n" +\
+               "NocBot is a homegrown telegram bot that allows you to anonymously chat with your Owl or Owlet.\n\n" +\
                "While in the Main Menu, click on:\n" +\
-               ANONYMOUS_CHAT_KEY + ": To chat with your Angel or Mortal\n" +\
+               ANONYMOUS_CHAT_KEY + ": To chat with your Owl or Owlet\n" +\
                ABOUT_THE_BOT_KEY + ": To view information about the bot\n" +\
                HELP_KEY + ": To explore this bot's functionality\n" +\
                RULES_KEY + ": To view the game rules\n\n" +\
                "While in the Chat feature, type any of the following to:\n" +\
-               ANGEL_KEY + ": Chat with your Angel\n" +\
-               MORTAL_KEY + ": Chat with your Mortal\n\n" +\
+               ANGEL_KEY + ": Chat with your Owl\n" +\
+               MORTAL_KEY + ": Chat with your Owlet\n\n" +\
                "Type " + MENU_KEY + " at any point in time to exit the Chat feature, and return to the Main Menu\n\n" +\
-               "Please message @shaozyi @amosaiden if you need technical assistance!\n" +\
+               "Please message @ravillioli if you need technical assistance!\n" +\
                "Thank you and we hope you'll have fun throughout this game! :)"
-GAME_RULES_MESSAGE = "How Discovering True Friends work\n\n" +\
-                     "Each of you who participated will be assigned an Angel and a Mortal. " +\
-                     "Of course, you will know the identity of your Mortal while your angel’s identity will be kept " +\
-                     "from you. Throughout the course of the event, feel free to chat with both your angel and mortal " +\
-                     "through OrcaBot where your identity will be kept secret, and take care of your mortal with " +\
+GAME_RULES_MESSAGE = "Welcome to Owl and Owlet!\n\n" +\
+                     "Each of you will be assigned an Owl (or angel) and an Owlet (or mortal). " +\
+                     "Of course, you will know the identity of your Owlet while your Owl’s identity will be kept " +\
+                     "from you. Throughout the course of the event, feel free to chat with both your Owl and Owlet " +\
+                     "through NocBot where your identity will be kept secret, and take care of your Owlet with " +\
                      "anonymous gift and pranks according to their indicated tolerance levels! " +\
-                     "Of course, you can look forward to seeing what your own angel does for you as well!\n\n" +\
+                     "Of course, you can look forward to seeing what your own Owl does for you as well!\n\n" +\
                      "Explanation for tolerance levels\n\n" +\
                      "Tolerance Levels\n" +\
-                     "1: Gift Exchange, do nice things only!\n" +\
-                     "2: Pranks are to be minimal, and no clean up required!\n" +\
-                     "3: Pranks are fine, minimal clean up.\n" +\
-                     "4: Minor inconveniences are encouraged!\n" +\
-                     "5: I don’t mind my door taped up.\n" +\
-                     "1 – 5 can’t come into room\n\n" +\
+                     "1: No clean-up required\n" +\
+                     "2: Minimal clean-up\n" +\
+                     "3: Moderate clean-up\n" +\
+                     "4: I love cleaning up!\n\n" +\
                      "Dos :)\n" +\
-                     "• Observe the Tolerance Levels your mortals have indicated.\n" +\
-                     "• Try to accommodate (if any) requests of your mortals e.g. avoid allergies\n" +\
+                     "• Observe the Tolerance Levels your Owlet have indicated.\n" +\
+                     "• Try to accommodate (if any) requests of your Owlet e.g. avoid allergies\n" +\
                      "• Balance out the pranks with gifts - moderation is key!\n" +\
                      "• Try (your best) to keep your identity hidden.\n" +\
                      "• Be active in the event! :)\n" +\
@@ -280,7 +278,7 @@ class User:
         self.mainmenu(text, chat_id)
 
     # Prompts the user for the admin password for login.
-    # If valid password, then then admin is allowed to send a message to a specific user or all users.
+    # If password is valid, then the admin menu is shown.
     def admin_login(self, text, chat_id):
         if text not in ADMIN_ID:
             send_message(INVALID_PIN, chat_id, self.name, reply_markup=remove_keyboard())
@@ -290,32 +288,34 @@ class User:
             send_message(SEND_ADMIN_GREETING, chat_id, self.name, reply_markup=keyboard)
             self.stage = self.admin_menu
 
-    # Sends message to selected user(s); assumes valid password.
+    # Opens the admin menu.
     def admin_menu(self, text, chat_id):
         if text == SEND_ONE_KEY:
-            send_message("Please key in the Game ID of the participant", chat_id, self.name)
-            self.stage = self.receive_game_id
+            send_message("Please enter the Game ID of the participant.", chat_id, self.name)
+            self.stage = self.choose_user
+        elif text == SEND_ALL_KEY:
+            send_message("Please enter your message; be careful - once you've sent something, there's no taking it back!", chat_id, self.name)
+            self.stage = self.send_all
         elif text == CHECK_REGIS_KEY:
-            send_message("Reply 'Y' to check registration status, or 'N' to return to mainmenu.", chat_id, self.name)
+            send_message("Please enter the Game ID of the participant.", chat_id, self.name)
             self.stage = self.check_registration
         else:
-            self.stage = self.send_all
+            send_message("Please choose a valid option.", chat_id, self.name)
         return
 
-    # helper function that fetches chat_id from database using game_id and sends text to the chat_id
-    def fetch_then_send(self, text, game_id):
-        owner_data = am_db.get_user_record_from_game_id(game_id)
+    def choose_user(self, text, chat_id):
+        owner_data = am_db.get_user_record_from_game_id(text)
         recipient_data = owner_data.fetchone()
         if recipient_data is not None:
-            send_message("From the Admin:\n" + text, recipient_data[2], self.name)
+            send_message("Please enter your message; be careful - once you've sent something, there's no taking it back!", chat_id, self.name)
+            self.stage = (lambda x, y, z: self.send_one(x, y, z, recipient_data))
+        else:
+            send_message("Recipient cannot be found! Try again, or exit with /mainmenu.", chat_id, self.name)
+            return
 
-    # chat_id is required to match the number of parameters in stage()
-    # Sends a message to all players if administrator credentials are approved.
-    # def send_all(self, text, chat_id):
-    #     list_of_ids = AM1 + AM2 + AM3 + AM4 + AM5 + + COMM + ADMINS
-    #     for game_id in list_of_ids:
-    #         self.fetch_then_send(text, game_id)
-    #     return
+    def send_one(self, text, chat_id, recipient_data):
+        send_message("From the Admin:\n" + text, recipient_data, self.name)
+        return
 
     # chat_id is required to match the number of parameters in stage()
     # Sends a message to all players if administrator credentials are approved.
