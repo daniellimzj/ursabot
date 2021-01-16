@@ -308,8 +308,7 @@ class User:
         recipient_data = owner_data.fetchone()
         if recipient_data is not None:
             send_message("Please enter your message; be careful - once you've sent something, there's no taking it back!", chat_id, self.name)
-            wrapper = lambda x, y : self.send_one(x, y, recipient_data)
-            self.stage = wrapper
+            self.stage = lambda x, y : self.send_one(x, y, recipient_data)
         else:
             send_message("Recipient cannot be found! Try again, or exit with /mainmenu.", chat_id, self.name)
             return
