@@ -55,9 +55,8 @@ SEND_ONE_KEY = u"/Send_One"
 CHECK_REGIS_KEY = u"/Check_Player_Registration"
 
 # TELEGRAM KEYBOARD OPTIONS
-AM_KEYBOARD_OPTIONS = [ANGEL_KEY, MORTAL_KEY, MENU_KEY]
-KEYBOARD_OPTIONS = [ANONYMOUS_CHAT_KEY, ABOUT_THE_BOT_KEY, HELP_KEY, RULES_KEY]
-ADMIN_KEYBOARD = [SEND_ALL_KEY, SEND_ONE_KEY, CHECK_REGIS_KEY]
+USER_KEYBOARD_OPTIONS = [ANONYMOUS_CHAT_KEY, ABOUT_THE_BOT_KEY, HELP_KEY, RULES_KEY]
+ADMIN_KEYBOARD_OPTIONS = [SEND_ALL_KEY, SEND_ONE_KEY, CHECK_REGIS_KEY]
 
 # GREETINGS
 ABOUT_THE_BOT = SPOUTING_WHALE + " *About OrcaBot* " + SPOUTING_WHALE + "\n\n" + CAKE + " Birthday: June 2017\n\n" +\
@@ -242,12 +241,12 @@ class User:
     def mainmenu(self, text, chat_id):
         formatted_hello_greeting = HELLO_GREETING.format(self.name)
         if text == MENU_KEY:
-            keyboard = build_keyboard(KEYBOARD_OPTIONS)
+            keyboard = build_keyboard(USER_KEYBOARD_OPTIONS)
             send_message(formatted_hello_greeting, chat_id, self.name, reply_markup=keyboard)
 
         elif text == ABOUT_THE_BOT_KEY:
             send_message(ABOUT_THE_BOT, chat_id, self.name)
-            keyboard = build_keyboard(KEYBOARD_OPTIONS)
+            keyboard = build_keyboard(USER_KEYBOARD_OPTIONS)
             send_message(formatted_hello_greeting, chat_id, self.name, reply_markup=keyboard)
 
         elif text == ANONYMOUS_CHAT_KEY:
@@ -271,7 +270,7 @@ class User:
 
         # Reopen main menu if no keywords match.
         else:
-            keyboard = build_keyboard(KEYBOARD_OPTIONS)
+            keyboard = build_keyboard(USER_KEYBOARD_OPTIONS)
             send_message(formatted_hello_greeting, chat_id, self.name, reply_markup=keyboard)
 
     # A method pointer that is reassigned constantly.
@@ -287,7 +286,8 @@ class User:
             send_message(INVALID_PIN, chat_id, self.name, reply_markup=remove_keyboard())
             return
         else:
-            send_message(SEND_ADMIN_GREETING, chat_id, self.name, reply_markup=remove_keyboard())
+            keyboard = build_keyboard(ADMIN_KEYBOARD_OPTIONS)
+            send_message(SEND_ADMIN_GREETING, chat_id, self.name, reply_markup=keyboard)
             if text == SEND_ONE_KEY:
                 send_message("Please key in the Game ID of the participant", chat_id, self.name)
                 self.stage = self.receive_game_id
