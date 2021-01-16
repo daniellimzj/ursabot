@@ -286,20 +286,20 @@ class User:
             send_message(INVALID_PIN, chat_id, self.name, reply_markup=remove_keyboard())
             return
         else:
-            keyboard = build_keyboard(ADMIN_KEYBOARD_OPTIONS)
-            send_message(SEND_ADMIN_GREETING, chat_id, self.name, reply_markup=keyboard)
-            if text == SEND_ONE_KEY:
-                send_message("Please key in the Game ID of the participant", chat_id, self.name)
-                self.stage = self.receive_game_id
-            elif text == CHECK_REGIS_KEY:
-                send_message("Reply 'Y' to check registration status, or 'N' to return to mainmenu.", chat_id, self.name)
-                self.stage = self.check_registration
-            else:
-                self.stage = self.send_all
-            return
+            self.stage = self.admin_menu
 
     # Sends message to selected user(s); assumes valid password.
-    def admin_send(self, text, chat_id):
+    def admin_menu(self, text, chat_id):
+        keyboard = build_keyboard(ADMIN_KEYBOARD_OPTIONS)
+        send_message(SEND_ADMIN_GREETING, chat_id, self.name, reply_markup=keyboard)
+        if text == SEND_ONE_KEY:
+            send_message("Please key in the Game ID of the participant", chat_id, self.name)
+            self.stage = self.receive_game_id
+        elif text == CHECK_REGIS_KEY:
+            send_message("Reply 'Y' to check registration status, or 'N' to return to mainmenu.", chat_id, self.name)
+            self.stage = self.check_registration
+        else:
+            self.stage = self.send_all
         return
 
     # helper function that fetches chat_id from database using game_id and sends text to the chat_id
