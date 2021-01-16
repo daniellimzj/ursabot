@@ -286,12 +286,12 @@ class User:
             send_message(INVALID_PIN, chat_id, self.name, reply_markup=remove_keyboard())
             return
         else:
+            keyboard = build_keyboard(ADMIN_KEYBOARD_OPTIONS)
+            send_message(SEND_ADMIN_GREETING, chat_id, self.name, reply_markup=keyboard)
             self.stage = self.admin_menu
 
     # Sends message to selected user(s); assumes valid password.
     def admin_menu(self, text, chat_id):
-        keyboard = build_keyboard(ADMIN_KEYBOARD_OPTIONS)
-        send_message(SEND_ADMIN_GREETING, chat_id, self.name, reply_markup=keyboard)
         if text == SEND_ONE_KEY:
             send_message("Please key in the Game ID of the participant", chat_id, self.name)
             self.stage = self.receive_game_id
