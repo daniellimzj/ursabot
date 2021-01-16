@@ -84,7 +84,7 @@ SUCCESSFUL_ANGEL_CONNECTION = "You have been connected with your Angel." +\
 SUCCESSFUL_MORTAL_CONNECTION = "You have been connected with your Mortal." +\
                                " Anything you type here will be sent anonymously to him/her.\n" +\
                                "To exit, type /mainmenu"
-HELLO_GREETING = "Hello there, {}! Nocbot at your service! " + SPOUTING_WHALE
+HELLO_GREETING = "Hello there, {}! NocBot at your service! " + SPOUTING_WHALE
 HELP_MESSAGE = "Hello there, {}!\n\n" +\
                "NocBot is a homegrown telegram bot that allows you to anonymously chat with your Owl or Owlet.\n\n" +\
                "While in the Main Menu, click on:\n" +\
@@ -129,25 +129,6 @@ GAME_RULES_MESSAGE = "Welcome to Owl and Owlet!\n\n" +\
                      " organizing comm! We hope you have fun and make new friends as well!\n\n" +\
                      "Best regards,\n" +\
                      "Your Organizing Committee"
-
-# HELP_MESSAGE = "<User guide for bot features>\n\n"
-# GAME_RULES_MESSAGE = "<Insert games rules>"
-
-# # TELEGRAM KEYBOARD KEYS
-# ABOUT_THE_BOT_KEY = u"About the Bot" + " " + SPOUTING_WHALE
-# ADMIN_KEY = u"/admin"
-# ANGEL_KEY = u"/angel"
-# ANONYMOUS_CHAT_KEY = u"Angel-Mortal Anonymous Chat" + " " + SPEECH_BUBBLE
-# HELP_KEY = u"/help"
-# RULES_KEY = u"/rules"
-# MENU_KEY = u"/mainmenu"
-# MORTAL_KEY = u"/mortal"
-
-# # TELEGRAM KEYBOARD OPTIONS
-# AM_KEYBOARD_OPTIONS = [ANGEL_KEY, MORTAL_KEY, MENU_KEY]
-# KEYBOARD_OPTIONS = [ANONYMOUS_CHAT_KEY, ABOUT_THE_BOT_KEY, HELP_KEY, RULES_KEY]
-
-
 
 # Sends a HTTP GET request using the given url.
 # Returns the response in utf8 format
@@ -332,13 +313,13 @@ class User:
             send_message("From the Admin:\n" + text, cid, self.name)
         return
 
-    def check_registration(self, text, chat_id):
-        owner_data = am_db.get_user_record_from_game_id(text)
-        recipient_data = owner_data.fetchone()
-        if recipient_data is not None:
-            if recipient_data[4]:
+    def check_registration(self, user_pin, chat_id):
+        list_of_ids = AM + AM2 + AM3 + AM4 + AM6 + AM7 + AM8
+        if user_pin in list_of_ids:
+            owner_data = am_db.get_user_record_from_game_id(user_pin)
+            recipient_data = owner_data.fetchone()
+            if recipient_data is not None:
                 send_message("User has registered already! Enter another ID, or use /mainmenu to exit.", chat_id, self.name)
-                return
             else:
                 send_message("User has not registered yet. Enter another ID, or use /mainmenu to exit.", chat_id, self.name)
                 return
@@ -363,6 +344,7 @@ class User:
     # user_record[3] = name on telegram
     # user_record[4] = isRegistered todo change to boolean
     # Initialises a chat with a user's angel or mortal.
+    # If this line is still here then I must have kept isRegistered i swear to fucking god why is this here??? NOTHING USES IT
     def anonymous_chat(self, text, chat_id):
         # returns the cursor that has executed the SQL statement in postgres
         user_record = am_db.get_user_record_from_user_chat_id(chat_id).fetchone()
