@@ -68,7 +68,6 @@ AM_GREETING = "Hello there, {}!\n\n" +\
               "/angel: Chat with your Angel\n" +\
               "/mortal: Chat with your Mortal\n" +\
               "/mainmenu: Exits the Chat feature, and returns to the Main Menu"
-
 AM_LOGIN_GREETING = "Please enter your 8-character Game ID.\n\n" +\
                      "or click /mainmenu to exit the registration process"
 INVALID_PIN = "You have entered the wrong 8-character Game ID. Please try again, or type /mainmenu to exit."
@@ -77,8 +76,8 @@ REQUEST_ADMIN_ID = "Please enter your Admin ID to proceed."
 SEND_ADMIN_GREETING = "Hello there, Administrator! What do you want to say to everyone?\n" +\
                       "Whatever you enter will be broadcasted to all users, so be CAREFUL!\n" +\
                       "Type /mainmenu to exit once you have made your announcement."
-SEND_CONNECTION_FAILED = u"This feature is unavailable now as he/she has yet to sign in to the game." +\
-                         u" Please be patient and try again soon!" + SMILEY + "\n\nType /mainmenu to go back."
+SEND_CONNECTION_FAILED = "Your {} has yet to sign in to the game. Please be patient and try again soon!" +\
+                         SMILEY + "\n\nType /mainmenu to go back."
 SUCCESSFUL_ANGEL_CONNECTION = "You have been connected with your Angel." +\
                             " Anything you type here will be sent anonymously to him/her.\n" +\
                             "To exit, type /mainmenu"
@@ -377,7 +376,7 @@ class User:
 
             angel_record = am_db.get_user_record_from_game_id(angel_game_id).fetchone()
             if angel_record is None:
-                send_message(SEND_CONNECTION_FAILED, chat_id, self.name)
+                send_message(SEND_CONNECTION_FAILED.format("angel"), chat_id, self.name)
             else:
                 self.angel_chat_id = angel_record[2]
                 self.mortal_name = angel_record[3]
@@ -405,7 +404,7 @@ class User:
 
             mortal_record = am_db.get_user_record_from_game_id(mortal_game_id).fetchone()
             if mortal_record is None:
-                send_message(SEND_CONNECTION_FAILED, chat_id, self.name)
+                send_message(SEND_CONNECTION_FAILED.format("mortal"), chat_id, self.name)
             else:
                 self.mortal_chat_id = mortal_record[2]
                 self.mortal_name = mortal_record[3]
